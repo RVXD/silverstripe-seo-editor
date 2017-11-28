@@ -180,9 +180,9 @@ class SEOEditorMetaDescriptionColumn extends GridFieldDataColumns implements
             foreach ($params as $fieldName => $val) {
                 $sqlValue = Convert::raw2sql($val);
                 $page->$fieldName = $sqlValue;
-                DB::query("UPDATE SiteTree SET {$fieldName} = '{$sqlValue}' WHERE ID = {$page->ID}");
+                $page->write();
                 if ($page->isPublished()) {
-                    DB::query("UPDATE SiteTree_Live SET {$fieldName} = '{$sqlValue}' WHERE ID = {$page->ID}");
+                    $page->doPublish();
                 }
             }
         }
